@@ -1,0 +1,54 @@
+	adloud release sent to DFRC (10/3/2005)
+
+	trying to compile (Sept/Oct 2006)
+
+Wrong make file (ZIP file included in the zip file was the MATLAB version;
+	should have been makefile.txt in C:\Booms\ADL\Monster_release
+
+ZIP file from me to Ed to Larry at DFRC had wrong end-of-line characters.
+
+ZIP file from ftp site had to be downloaded with the bin option.
+
+variable names ending in $ had to be changed (replaced $ with _lc).
+
+	accept *,variable 
+had to be replaced with 
+	read (*,*) variable
+
+
+read_wsmr.f contains the lines
+
+        open (unit=iunit,
+     $    file=file$,status='old',form='formatted',readonly,
+     $    err=8000)
+
+Some Fortrans don't like "readonly"; the code compiles if you delete 
+"readonly" completely.  Now if you do that, depending on your Fortran 
+it may or may not open the file for reading or maybe for writing so it 
+may overwrite whatever was there (this may occur if you're reading in 
+data from a file) so initially you may want to ensure you have backup 
+copies of files you want to analyse before you let this program loose 
+on them.
+
+In F90, the following should work:
+        open (unit=iunit,
+     $    file=file$,status='old',form='formatted',action='read',
+     $    err=8000)
+
+But in F90, 
+	accept *,variable_name
+has to be replaced with 
+	read (*,*) variable_name
+as we had above.
+
+Problem in sub_loud_large_windowed.f - if the signal is too short to 
+allow for any tapering, so the taper length was 0, the program would 
+crash.  I've fixed this so the taper length is 1 and a message to this
+effect is printed out. 
+
+F90 had major problems with print statements in read_wsmr.f so we gave
+up on opening the data file for "readonly".  F77 appears to have no 
+protection (at least in the fortran Larry is running).
+
+Updated makefile (makefile_windowed.txt) and sub_loud_large_windowed.f
+put in the ZIP file.  As is read_me2.txt.

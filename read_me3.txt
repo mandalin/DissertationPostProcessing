@@ -1,0 +1,216 @@
+Loudness Code for Asymmetric Sonic Booms( LCASB) release notes - October 10 2006
+
+adloud was originally written to calculate loudness levels from binary data read in 
+by our in-house A/D board (hence the name).  It has since been expanded piecemeal to 
+handle lots of other forms of data.  Hence it is a conglomerate of code.  Use at your 
+own risk!
+
+(You won't want to use the inbuilt directories when you unzip the LCASB.zip file.)
+
+The program is expecting the input file to be ASCII (for the option I describe here).  
+It is expecting the data to be in the form of a pressure time-history with the data 
+values measured at equally spaced points in time (i.e. there is a fixed sample rate).
+
+It will handle files that (optionally) start with N lines (records) of header (junk) 
+which it will skip.
+Then the next line (optionally) is a single number that's the number of data points 
+in the file.
+Then there are two acceptable formats:
+	Time, pressure pairs (one pair per line).
+Or
+	Pressure values (one or more per line - if more than one, all lines should 
+be the same length).
+
+The program reads to the end of the file or until it has read the number of points 
+(pairs) you specified.   (Any FORTRAN-viable delimiters may be used - spaces, tabs, 
+commas.  And any number format, scientific, integer, real.)
+
+
+
+Initially, the main menu is a list of options - I have removed all options except 0, 
+9 and 12 (the other options are for in-house format files).  0 is the exit option.
+Option 12 is just a whole lot of repeats of option 9 but with the outputs all written 
+to the same files (one long-form and one short-form).  In here, I describe 9.  12 may 
+have a step or two eliminated, so read the screen.
+
+Then the program asks
+	Do you want to do symmetric analyses (0 or N)
+        	          asymmetric analyses (1 or Y)
+(symmetric gives the total value; asymmetric gives values for the front and back 
+parts of the waveform as well as the total.  The program will not try to differentiate 
+cases with more than one boom in the input file.)
+
+It asks for two file names, one for an output file containing the minimum data and 
+one for a longer version.  If you enter N (or n) for either (or both) the appropriate 
+data gets printed to the screen.  Any output files go to the current directory.
+
+
+ Then:
+
+	Enter the reference voltage and equivalent dB level
+
+If your data is in Pascals, enter 1 and 93.98; if it's in psf, enter 1 and 127.6; 
+if it's in some other units, enter whatever gives the right conversion:
+
+The data you put in is converted in the program to pressure (where I work in Pascals) using
+
+Pressure = [ input_values * (20e-6 Pa) * 10^(equivalent_dB/20) ]  / reference_voltage
+
+	Enter ASCII data file name (n to quit)
+
+Type the input data file name (including path name if it doesn't reside in the 
+current directory).  Include any extension. (n will take you back to the main menu.)
+
+
+	Enter sample rate 
+(The program offers to calculate it, but can only do this if your input data file is 
+in the form of pairs of values of time and pressure).
+
+	Enter number of data points.  
+If you don't know, enter zero and it will read to the end of the file.  If the number 
+is in the file (where it needs to be the first number on the first line of useful data), 
+enter -1.
+
+	Enter scale factor to convert input to psf
+Enter 1 at this point.  (This datum is part of a different option than the 9 you asked 
+for at the beginning of the program; your conversion is handled by the reference voltage
+and equivalent dB line.)
+
+ 	How many lines of junk initially?
+Enter the number of header lines at the beginning of the file that you'd like the program 
+to skip over.  (0 if none)
+
+ 	Do you have pressure values only (1) or time and pressure pairs (2)?
+As described above, there are 2 basic formats the program is expecting, so chose whichever
+fits your data.  If you have entered a sample rate of 0 and then give only pressure values,
+the program will protest and go on either to crash or to spew forth garbage (GIGO).
+
+If you enter 2, it asks
+	Are times in secs(1) or msecs(2)?
+Answer appropriately and away it goes.
+
+If you enter 1, and declared that the number of points was -1 or something known, the
+program does its thing.
+
+If you enter 1, and declared the number of points was 0, it asks
+	How many numbers per record/repeating sequence?
+
+If your file has multiple data values on a row (record), then enter the number of data 
+values on each row.  All rows must have the same number of data points.  If the last 
+line doesn't, then the program will crash (so edit it out and try again).  If there's 
+one number per row, enter 1.  (It may be superfluous to remark that the program reads 
+in rows, one row, then the next, not in columns, as it is not reading in a matrix or 
+a 2-d array.)
+So again, answer appropriately and away it goes.
+
+NEW AT THIS POINT (Oct 10 2006)::
+
+It will now ask you to enter the begining point and the ending point. If you
+want to analyse the entire file, enter 1 for the beginning and 0 (zero) for
+the ending.  If you want to analyze only a part of the file, enter the indexes 
+for the required start and end points.  Thus you can put in a long file, but
+restrict your analysis, so you aren't analyzing lots of noise.  
+
+This is important if you are analyzing recordings made in the field or in 
+the real world where noise is present, and contaminating your recording.
+You can analyze (boom plus noise) and then analyze an equal length of noise 
+alone, subtract (on an energy basis) the metrics for the noise from those 
+for the boom+noise, and be left with metrics for the boom alone (which may 
+be negative showing the you have inadequate signal-to-noise ratio in your 
+recording).
+
+The program then asks you to enter the number of points for the Hanning window
+taper.  A Hanning-type window is applied to the signal from the point where you
+asked the analysis to begin for a number of points (defined by the entry
+you make here).  It is also applied at the end from before your ending point
+up to your requested ending point.  In other words it is applied to the 
+signal section you define, not before or after that section, so remember to
+leave space for it when you define the section to be analyzed.
+
+A suitable length of window could be 400 points (at 24000 samples/sec) or
+more.  too much and you start hitting the boom itself.  Play around with this
+variable to see its effects.  (I often use 2000 points, to be on the save side.)
+
+(end of new stuff of Oct 10 2006)
+
+It prints out some cabalistic numbers and (if you're on option 9) goes back 
+to that first menu again.  So you can repeat the procedure.  Or not as you see fit.
+
+0 gets you out of this menu.
+
+If you're using option 12 (lots of files of similar formats), at this point instead of 
+going back to the first menu, it loops back to asking for an input data file name, then 
+asks the same formatting questions, and so on, until you enter "n" instead of a file 
+name; at this point it returns to the first menu.
+
+
+
+Looking at the output files (let's start with the short form one):
+If you asked for symmetric data you get one line per input data file
+The form of the data is:
+
+  #   signal   dB(PL)  dB(C)  dB(A)  dB(Lin)  dB(Z)f  dB(Z)d  dB(PNL)   max   min(psf) 
+
+where
+
+# 				is a number
+signal 			is the name of the input data file (or the first 20 or so characters thereof)
+dB(PL) 			is Stevens Mark VII Perceived Level calculated using a time constant 
+			of 70 msec and averaging across the two peaks.  Which means 3 dB 
+			is subtracted from the 1/3 octave band levels calculated from the 
+			spectrum for the entire boom before the PL metric is calculated.
+dB(C), dB(A), dB(Lin) 	are weighted SEL values (so the time constant is 1 sec and there 
+			is no averaging)
+dB(Z)f and dB(Z)d	are Zwicker loudness levels in phons, for frontal incidence 
+			and diffuse incidence, calculated using a time constant of 70 msec 
+			and averaging across the two peaks
+dB(PNL)			is Kryter's Perceived Noise Level, calculated using a time constant 
+			of 70 msec and averaging across the two peaks
+max and min psf 	are maximum and minimum psf values
+(ignore any other arcane output numbers)
+
+
+If you asked for asymmetric data you get three lines per input data file.
+The first line is the whole boom, as described above.
+The second line is the front part of the boom.
+The third line is the rear part of the boom.
+For the metrics for the front part and rear part, the SEL values are SEL values as before.  
+The PL, ZLL, PNL values are still calculated using the 70 msec time constant but as there 
+is only one "peak" there is no averaging.
+Thus  dBA(front)+dBA(rear) should add logarithmically to dBA(whole) but 
+PLdB(front)+PLdB(rear) should be about PLdB(whole)-3dB (give or take the non-linear nature 
+of PL).
+
+If you have data for multiple booms in one file, the three lines (all, front, rear) for 
+one boom are printed, followed by the three lines for the next boom, etc.
+
+
+The long-form output files has immense amounts of data.  If you ever want to understand it 
+(and it isn't self explanatory), contact me.
+
+
+There is also an output file called subf7_shape.txt that contains the shape of the
+waveform as used in the loudness computation - including zero padding and windowing
+of signals that do not contain adequate zeros at the beginning and end of the file.
+It can be looked at in Matlab using the following code:
+	fid=fopen('subf7_shape.txt','r')
+	y=fscanf(fid,'%e',[1,inf]);
+	plot(y)
+
+
+I guarantee nothing with this code - but you already know that because you've signed 
+the release.  
+
+If you come across any bugs, anomalies, misspellings, please let me know.
+
+				Brenda M. Sullivan
+
+
+                        brenda.m.sullivan@nasa.gov
+
+    Mail Stop 463			Structural Acoustics Branch
+    2 North Dryden Street		R.T.D.
+    NASA Langley Research Center	Building 1208, Room 109
+    Hampton, VA 23681-2199		Phone (757) 864-3585
+    					Fax   (757) 864-8823
+

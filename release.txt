@@ -1,0 +1,53 @@
+
+CFLAGS =  -c -g2
+
+FFLAGS =  -c -g2
+
+OBJS = \
+
+   adloud.o ad_cal.o open_sig.o \
+   dumplevels.o fftscs_replacement.o \
+   find_events.o find_zero_new.o flip_events.o \
+   flip_short.o llzd.o mcmweight.o new_find_zero.o \
+   old_find_zero.o pl.o pnl_corr.o pnldata.o \
+   readonly.o ladjust.o onethirdoctaves.o \
+   read_it.o read_wsmr_select.o sub_expav2l.o \
+   sub_loud_large_windowed.o sub_ref.o subf7adw_main.o  \
+   threshold.o weights.o \
+   read_mat1_stb.o open_mat_file_stb.o \
+   open_matlab_stb.o close_matlab_stb.o
+
+
+made:  $(OBJS)
+        f77 -g2 -o adloud_nomat $(OBJS) -lm
+
+
+ adloud.f
+ ad_cal.f
+ open_sig.f
+ dumplevels.f
+ fftscs_replacement.f
+ find_events.f
+ find_zero_new.f
+ flip_events.f
+ flip_short.f
+ llzd.f
+ mcmweight.f
+ new_find_zero.f
+ old_find_zero.f
+ pl.f
+ pnl_corr.f
+ pnldata.f
+ readonly.f
+ ladjust.f
+ onethirdoctaves.f
+ read_it.f
+ read_wsmr.f
+ sub_expav2l.f
+ sub_loud_large_windowed.f
+ sub_ref.f
+ subf7adw_main.f
+ threshold.f
+ weights.f
+ read_mat1_stb.f
+ open_mat_file_stb.f

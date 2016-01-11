@@ -1,0 +1,11 @@
+C  Commons for PL, PNL and PNLCBC (etc) routines
+
+	REAL*4 Tabm1(24),Tabl1(24),Tabm2(24),Tabl2(24)
+	REAL*4 Tabm3(24),Tabl3(24),Tabm4(24),Tabl4(24),Tablc(24)
+	REAL*4 Nn,Noys,X,Xmaxx,Kspl(43),Aspl,Noyx(3),Noy(24)
+	REAl*4 Tabl3a(24), Tabm3a(24), Tablca(24), Tablcf(24)
+
+	COMMON /PNL_PL/ Tabm1,Tabl1,Tabm2,Tabl2,Tabm3,Tabl3,
+     1	    Tablc,Tabm4,Tabl4,Nn,Noys,X,Xmaxx,Kspl,Aspl,Noyx,Noy,
+     2      Tabl3a, Tabm3a, Tablca, Tablcf
+

@@ -1,0 +1,3 @@
+	PROGRAM TESTPLDB
+	CALL subf7adw_main
+	END

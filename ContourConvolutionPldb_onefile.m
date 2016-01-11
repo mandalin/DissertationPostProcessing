@@ -7,7 +7,7 @@ clear all
 close all 
 clc
 
-cd('/Volumes/WORKSPACE-ONE/InProgress')
+cd('/Users/mandalin/Desktop/Sort Me Now/Dissertation_PLdB_PostProcessing/Inputs')
 truncate_at=500;
 load('Channel_188.mat')
 input = X_desired_fs/2;

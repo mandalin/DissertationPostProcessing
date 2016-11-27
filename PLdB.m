@@ -71,10 +71,10 @@ end
 save(['groundmeas1.pl'], 'waveform','-ascii')
 % send the ground measurement to Brenda's Code, along with the
 % instructions contained in options.pl
-if isstruct(dir('longmeas1.pl'))
-  delete('longmeas1.pl');
+if isstruct(dir('longmeas.pl'))
+  delete('longmeas.pl');
 end 
-dos('"/Users/mandalin/Desktop/Sort Me Now/Dissertation_PLdB_PostProcessing/weightsv2" < options.pl');
+dos('"/Users/mandalin/Desktop/Sort Me Now/DissertationPostProcessing/weightsv2" < options.pl');
 %%
 fid=fopen('longmeas1.pl'); % longmeas.pl =output data file from Sullivan
 % code.  %Lind suffix with 1

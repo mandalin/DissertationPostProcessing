@@ -97,7 +97,7 @@ last=length(IRlisting)
 
 IRnum=1;
 
-for(IRnum=1:last)
+for(IRnum=7288:last)
     
     cd(IRFolder)
     fid = fopen(IRlisting(IRnum).name);

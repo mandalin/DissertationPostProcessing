@@ -11,12 +11,13 @@ clc
 
 
 %identify the IR folder
-IRFolder='/Volumes/AMPULINA/2016NovemberSims/Wall - 2016 - Nov - 25 /Specular_IR'; 
+%IRFolder='/Volumes/AMPULINA/2016NovemberSims/Wall - 2016 - Nov - 25 /Specular_IR'; 
+IRFolder='/Volumes/AMPULINA/2017/Wall/GroundLevel/SpecularIR/1'; 
 cd(IRFolder)
 IRlisting=dir();
 
-ContourOutFolder='/Volumes/AMPULINA/2016NovemberSims/Wall - 2016 - Nov - 25 /Specular_Contour';
-OneStepBack='/Volumes/AMPULINA/2016NovemberSims/Wall - 2016 - Nov - 25 /';
+ContourOutFolder='/Volumes/AMPULINA/2017/Wall/GroundLevel/SpecularContour/1';
+OneStepBack='/Volumes/AMPULINA/2017/Wall/GroundLevel/SpecularContour';
 PLdBCalcFolder='/Users/mandalin/Desktop/Sort Me Now/DissertationPostProcessing';
 
 %______________________________________
@@ -97,7 +98,7 @@ last=length(IRlisting)
 
 IRnum=1;
 
-for(IRnum=7288:last)
+for(IRnum=1:last)
     
     cd(IRFolder)
     fid = fopen(IRlisting(IRnum).name);

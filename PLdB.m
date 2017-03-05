@@ -71,8 +71,8 @@ end
 save(['groundmeas1.pl'], 'waveform','-ascii')
 % send the ground measurement to Brenda's Code, along with the
 % instructions contained in options.pl
-if isstruct(dir('longmeas.pl'))
-  delete('longmeas.pl');
+if isstruct(dir('longmeas1.pl'))
+  delete('longmeas1.pl');
 end 
 dos('"/Users/mandalin/Desktop/Sort Me Now/DissertationPostProcessing/weightsv2" < options.pl');
 %%

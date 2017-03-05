@@ -11,11 +11,13 @@ clc
 
 
 %identify the IR folder
-IRFolder='/Volumes/AMPULINA/2016NovemberSims/Wall - 2016 - Nov - 25 /Specular_IR'; 
+IRFolder='/Volumes/AMPULINA/2016NovemberSims/Wall - 2016 - Nov - 25 /BTM_IR'; 
 cd(IRFolder)
 IRlisting=dir();
 
-
+ContourOutFolder='/Volumes/AMPULINA/2016NovemberSims/Wall - 2016 - Nov - 25 /BTM_Contour';
+OneStepBack='/Volumes/AMPULINA/2016NovemberSims/Wall - 2016 - Nov - 25 /';
+PLdBCalcFolder='/Users/mandalin/Desktop/Sort Me Now/DissertationPostProcessing';
 
 %______________________________________
 
@@ -54,7 +56,7 @@ for(index=1:length(IRlisting))
         break;
     end
 end
-cd('/Volumes/WORKSPACE-ONE/InProgress');
+cd(OneStepBack);
 
 
 
@@ -74,7 +76,7 @@ inputnum=1;
 Inputlisting(inputnum).name='Mic188';
 
 %Creat text file for outputing positions and PLdB Values
-cd('/Users/mandalin/Desktop/Sort Me Now/Dissertation_PLdB_PostProcessing/Contours/Wall_sim_0_noHPFing')
+cd(ContourOutFolder)
  OutputPLdB_File_fid=fopen('PLdB_Contour_Wall_2.txt','w')
  OutputPmax_File_fid=fopen('Pmax_Contour_Wall_2.txt','w')
  OutputNumRefs_File_fid=fopen('NumRefs_Contour_Wall_2.txt','w')
@@ -104,11 +106,10 @@ for(IRnum=1:last)
     fclose(fid);
     IR=C{1};
     clear C;
-    cd('/Volumes/WORKSPACE-ONE/InProgress');
+    cd(OneStepBack);
 
     %calculate PLdB
-    cd(InputFolder)
-    cd .. 
+    cd(PLdBCalcFolder)
     
     FS=48000;
     Y=conv(IR(1:truncate_at),input);
